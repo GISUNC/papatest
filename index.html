@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNC Student Table</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+</head>
+
+<body>
+
+    <script>
+        var data = [];
+        var elURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGZuTPTFCBsW293QsxUZ5bdQ9vuJzKQY5iByvhCR86plYa2NFZ08bJWqy2lSGixxZTRacbjcx9xDoi/pub?output=csv'
+            //'pub?output=csv' // este es el pedacito                    
+            Papa.parse(elURL, {
+            download:true,
+	        header: true,
+            skipEmptyLines:'greedy',
+            transformHeader: name => {
+                switch(name) {
+                    case 'Validate': { return 'approved'; break; }
+                    case 'Position': { return 'position'; break; }
+                    case 'Institution': { return 'institution'; break; }
+                    case 'Location': { return 'location'; break; }
+                    case 'Description': { return 'description'; break; }
+                    }
+                        },
+
+          complete:res => {
+                data = res.data.filter(f => {
+           return f.approved === 'TRUE';
+         });
+        }
+        
+        });
+
+        var data = [];
+        var elURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGZuTPTFCBsW293QsxUZ5bdQ9vuJzKQY5iByvhCR86plYa2NFZ08bJWqy2lSGixxZTRacbjcx9xDoi/pub?output=csv'
+            //'pub?output=csv' // este es el pedacito                    
+            Papa.parse(elURL, {
+            download:true,
+	        header: true,
+            skipEmptyLines:'greedy',
+            transformHeader: name => {
+                switch(name) {
+                    case 'Validate': { return 'approved'; break; }
+                    case 'Position': { return 'position'; break; }
+                    case 'Institution': { return 'institution'; break; }
+                    case 'Location': { return 'location'; break; }
+                    case 'Description': { return 'description'; break; }
+                    }
+                        },
+
+          complete:res => {
+                data = res.data.filter(f => {
+           return f.approved === 'TRUE';
+           test();
+                });
+        }
+        
+        });
+// console.log(data)
+test = function() {
+for (i=0; i<data.length; i++){
+  console.log(i)
+  var x = document.getElementById("elContainer")
+  var iDiv = document.createElement('div');
+  iDiv.setAttributeNS(null, 'id', ('id_'+i));
+    iDiv.setAttributeNS(null, 'style', 'position: absolute; background-color: #00FF00; z-Index: 999');
+  iDiv.setAttributeNS(null, 'class', "section") 
+    iDiv.innerText = i;
+  x.appendChild(iDiv)
+}
+}
+
+
+    </script>
+
+</body>
+
+</html>
