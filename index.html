@@ -5,80 +5,41 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNC Student Table</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <title>Google Sheet Test</title>
 
 </head>
 
 <body>
-
-    <script>
-        var data = [];
-        var elURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGZuTPTFCBsW293QsxUZ5bdQ9vuJzKQY5iByvhCR86plYa2NFZ08bJWqy2lSGixxZTRacbjcx9xDoi/pub?output=csv'
-            //'pub?output=csv' // este es el pedacito                    
-            Papa.parse(elURL, {
-            download:true,
-	        header: true,
-            skipEmptyLines:'greedy',
-            transformHeader: name => {
-                switch(name) {
-                    case 'Validate': { return 'approved'; break; }
-                    case 'Position': { return 'position'; break; }
-                    case 'Institution': { return 'institution'; break; }
-                    case 'Location': { return 'location'; break; }
-                    case 'Description': { return 'description'; break; }
-                    }
-                        },
-
-          complete:res => {
-                data = res.data.filter(f => {
-           return f.approved === 'TRUE';
-         });
-        }
-        
-        });
-
-        var data = [];
-        var elURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGZuTPTFCBsW293QsxUZ5bdQ9vuJzKQY5iByvhCR86plYa2NFZ08bJWqy2lSGixxZTRacbjcx9xDoi/pub?output=csv'
-            //'pub?output=csv' // este es el pedacito                    
-            Papa.parse(elURL, {
-            download:true,
-	        header: true,
-            skipEmptyLines:'greedy',
-            transformHeader: name => {
-                switch(name) {
-                    case 'Validate': { return 'approved'; break; }
-                    case 'Position': { return 'position'; break; }
-                    case 'Institution': { return 'institution'; break; }
-                    case 'Location': { return 'location'; break; }
-                    case 'Description': { return 'description'; break; }
-                    }
-                        },
-
-          complete:res => {
-                data = res.data.filter(f => {
-           return f.approved === 'TRUE';
-           test();
-                });
-        }
-        
-        });
-// console.log(data)
-test = function() {
-for (i=0; i<data.length; i++){
-  console.log(i)
-  var x = document.getElementById("elContainer")
-  var iDiv = document.createElement('div');
-  iDiv.setAttributeNS(null, 'id', ('id_'+i));
-    iDiv.setAttributeNS(null, 'style', 'position: absolute; background-color: #00FF00; z-Index: 999');
-  iDiv.setAttributeNS(null, 'class', "section") 
-    iDiv.innerText = i;
-  x.appendChild(iDiv)
+  <div>Hola</div>
+  <script>
+    var id = '1hbHqrnYa4oMUquZcq8WkTJk0kI0t9scGBwro-EH-ALA' //'______your_speadsheet_id________';
+var gid = '0';
+var url = 'https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:json&tq&gid='+gid;
+console.log(url)
+fetch(url)
+  .then(response => response.text())
+  .then(data => document.getElementById("json").innerHTML=myItems(data.substring(47).slice(0, -2))  
+  );
+function myItems(jsonString){
+  var json = JSON.parse(jsonString);
+  var table = '<table><tr>'
+  json.table.cols.forEach(colonne => table += '<th>' + colonne.label + '</th>')
+  table += '</tr>'
+  json.table.rows.forEach(ligne => {
+    table += '<tr>'
+    ligne.c.forEach(cellule => {
+        try{var valeur = cellule.f ? cellule.f : cellule.v}
+        catch(e){var valeur = ''}
+        table += '<td>' + valeur + '</td>'
+      }
+    )
+    table += '</tr>'
+    }
+  )
+  table += '</table>'
+  return table
 }
-}
-
-
-    </script>
+  </script>
 
 </body>
 
